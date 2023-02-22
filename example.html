@@ -31,6 +31,31 @@
                 .catch(err => {
                     console.error(err);
                 });
+
+            // KV
+            LanyardWrapper.setKV("548120702373593090", "key", "value", "apiKey")
+                .then(() => {
+                    console.log("Successfully set KV");
+                })
+                .catch(err => {
+                    console.error(err);
+                });
+
+            LanyardWrapper.getKV("548120702373593090", "key")
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(err => {
+                    console.error(err);
+                });
+
+            LanyardWrapper.deleteKV("548120702373593090", "key", "apiKey")
+                .then(() => {
+                    console.log("Successfully deleted KV");
+                })
+                .catch(err => {
+                    console.error(err);
+                });
         </script>
     </body>
 </html>

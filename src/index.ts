@@ -170,3 +170,63 @@ export async function fetchUserDataForMultipleUsers(userIds: string[]): Promise<
         }
     })
 }
+
+export async function getKV(userId: string, key: string): Promise<string> {
+    try {
+        const data = await fetchUserData(userId);
+        return data.kv[key];
+    } catch (err) {
+        throw new Error(`Failed to get Lanyard KV for user ${userId} and key ${key}: ${err}`);
+    }
+}
+
+export async function setKV(userId: string, key: string, value: any, apiKey: string): Promise<void> {
+    const url = `${CONSTANTS.API_URL}/users/${userId}/kv/${key}`;
+    const headers = {
+        'Authorization': apiKey,
+        'Content-Type': 'application/json'
+    };
+    const body = JSON.stringify(value);
+
+    const response = await fetch(url, {
+        method: 'PUT',
+        headers: headers,
+        body: body
+    });
+    if (!response.ok) {
+        throw new Error(`Failed to set Lanyard KV for user ${userId} and key ${key}: ${response.status} - ${await response.text()}`);
+    }
+}
+
+export async function mergeKV(userId: string, kvPairs: {[key: string]: any}, apiKey: string): Promise<void> {
+    const url = `${CONSTANTS.API_URL}/users/${userId}/kv`;
+    const headers = {
+        'Authorization': apiKey,
+        'Content-Type': 'application/json'
+    };
+    const body = JSON.stringify(kvPairs);
+
+    const response = await fetch(url, {
+        method: 'PATCH',
+        headers: headers,
+        body: body
+    });
+    if (!response.ok) {
+        throw new Error(`Failed to merge Lanyard KV for user ${userId}: ${response.status} - ${await response.text()}`);
+    }
+}
+
+export async function deleteKV(userId: string, key: string, apiKey: string): Promise<void> {
+    const url = `${CONSTANTS.API_URL}/users/${userId}/kv/${key}`;
+    const headers = {
+        'Authorization': apiKey
+    };
+
+    const response = await fetch(url, {
+        method: 'DELETE',
+        headers: headers
+    });
+    if (!response.ok) {
+        throw new Error(`Failed to delete Lanyard KV for user ${userId} and key ${key}: ${response.status} - ${await response.text()}`);
+    }
+}
