@@ -88,7 +88,7 @@ type Data = {
     activities: Activity[];
 };
 
-export async function connectWebSocket(userId: string | string[], onUpdate: (data: Data) => void, onError: (error: Error) => void): Promise<WebSocket | null> {
+export function connectWebSocket(userId: string | string[], onUpdate: (data: Data) => void, onError: (error: Error) => void): WebSocket | null {
     const supportsWebSocket = "WebSocket" in window || "MozWebSocket" in window;
 
     if (!supportsWebSocket) {
