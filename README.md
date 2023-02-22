@@ -28,9 +28,17 @@ yarn add lanyard-wrapper
 <script src="https://cdn.jsdelivr.net/npm/lanyard-wrapper/dist/index.browser.js"></script>
 
 <script type="text/javascript">
-    const ws = LanyardWrapper.connectWebSocket("USER_ID", (data) => {
+    function onUpdate(data) {
+        // data is a Lanyard data object
         console.log(data);
-    })
+    }
+
+    function onError(err) {
+        // err is an error object
+        console.error(err);
+    }
+    
+    const ws = LanyardWrapper.connectWebSocket("USER_ID", onUpdate, onError);
 </script>
 ```
 
@@ -62,9 +70,17 @@ yarn add lanyard-wrapper
 ```js
 const LanyardWrapper = require("lanyard-wrapper");
 
-const ws = LanyardWrapper.connectWebSocket("USER_ID", (data) => {
+function onUpdate(data) {
+    // data is a Lanyard data object
     console.log(data);
-})
+}
+
+function onError(err) {
+    // err is an error object
+    console.error(err);
+}
+
+const ws = LanyardWrapper.connectWebSocket("USER_ID", onUpdate, onError);
 ```
 
 #### OR Using the REST API
@@ -93,9 +109,17 @@ LanyardWrapper.fetchUserDataForMultipleUsers(["USER_ID_1", "USER_ID_2"])
 ```ts
 import { connectWebSocket } from "lanyard-wrapper";
 
-const ws = connectWebSocket("USER_ID", (data) => {
+function onUpdate(data) {
+    // data is a Lanyard data object
     console.log(data);
-})
+}
+
+function onError(err) {
+    // err is an error object
+    console.error(err);
+}
+
+const ws = connectWebSocket("USER_ID", onUpdate, onError);
 ```
 
 #### OR Using the REST API
