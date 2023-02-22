@@ -1,0 +1,41 @@
+{
+  "name": "lanyard-wrapper",
+  "description": "Fully-typed Lanyard API wrapper for JavaScript/TypeScript (in browser environment)",
+  "version": "1.0.0",
+  "repository": "https://github.com/brokiem/lanyard-wrapper.git",
+  "author": "brokiem <milyhqvideo@gmail.com>",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "unpkg": "dist/index.browser.js",
+  "jsdelivr": "dist/index.browser.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "lanyard",
+    "discord",
+    "api",
+    "wrapper"
+  ],
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@typescript-eslint/parser": "^5.53.0",
+    "del-cli": "^5.0.0",
+    "eslint": "^8.34.0",
+    "rollup": "^3.17.2",
+    "typescript": "^4.9.5"
+  },
+  "scripts": {
+    "build": "yarn clean && yarn rollup",
+    "clean": "del-cli dist/*",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "rollup": "rollup --config rollup.config.mjs"
+  },
+  "dependencies": {}
+}
