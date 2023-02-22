@@ -6,6 +6,12 @@ Fully-typed Lanyard API wrapper for JavaScript/TypeScript (in browser environmen
 
 Looking for Node.js version? Check out [node-lanyard-wrapper](https://github.com/brokiem/node-lanyard-wrapper)
 
+## Features
+- Fully-typed
+- Supports WebSocket connection
+- Supports REST API
+- Supports managing Lanyard KV
+
 ## Installation
 #### NPM
 ```bash
