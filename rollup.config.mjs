@@ -3,7 +3,7 @@ import terser from "@rollup/plugin-terser";
 
 const plugins = [
     typescript({ tsconfig: './tsconfig.json' }),
-    terser()
+    terser({ format: { comments: false } })
 ];
 
 export default [
