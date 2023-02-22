@@ -166,8 +166,8 @@ export async function fetchUserData(userId: string): Promise<Data> {
 export async function fetchUserDataForMultipleUsers(userIds: string[]): Promise<Data[]> {
     const val: Data[] = [];
 
-    for (const user_id of userIds) {
-        const res = await fetchUserData(user_id);
+    for (const userId of userIds) {
+        const res = await fetchUserData(userId);
         val.push(res);
     }
 
