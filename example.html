@@ -10,9 +10,12 @@
         <script src="https://cdn.jsdelivr.net/npm/lanyard-wrapper/dist/index.browser.js"></script>
 
         <script type="text/javascript">
-            const ws = LanyardWrapper.connectWebSocket("548120702373593090", (data) => {
+            LanyardWrapper.connectWebSocket("548120702373593090", (data) => {
                 console.log(data);
-            }, (err) => {
+            }).then(ws => {
+                // ws is a WebSocket object
+                console.log(ws);
+            }).catch(err => {
                 console.error(err);
             });
 

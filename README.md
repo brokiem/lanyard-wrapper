@@ -4,18 +4,18 @@ Fully-typed Lanyard API wrapper for JavaScript/TypeScript (in browser environmen
 [![npm](https://img.shields.io/npm/v/lanyard-wrapper)](https://www.npmjs.com/package/lanyard-wrapper)
 [![npm](https://img.shields.io/npm/dt/lanyard-wrapper)](https://www.npmjs.com/package/lanyard-wrapper)
 
-Looking for Node.js? Check out [node-lanyard-wrapper](https://github.com/brokiem/node-lanyard-wrapper)
+Looking for Node.js version? Check out [node-lanyard-wrapper](https://github.com/brokiem/node-lanyard-wrapper)
 
 ## Installation
-### NPM
+#### NPM
 ```bash
 npm i lanyard-wrapper
 ```
-### Yarn
+#### Yarn
 ```bash
 yarn add lanyard-wrapper
 ```
-## CDN
+#### CDN
 ```html
 <script src="https://cdn.jsdelivr.net/npm/lanyard-wrapper/dist/index.browser.js"></script>
 ```
@@ -35,14 +35,17 @@ Check out [Lanyard API Documentation](https://brokiem.is-a.dev/lanyard-wrapper/)
         console.log(data);
     }
 
-    function onError(err) {
-        // err is an error object
-        console.error(err);
-    }
-    
-    const ws = LanyardWrapper.connectWebSocket("USER_ID", onUpdate, onError);
+    LanyardWrapper.connectWebSocket("USER_ID", onUpdate)
+            .then(ws => {
+                // ws is a WebSocket object
+                console.log(ws);
+            })
+            .catch(err => {
+                console.error(err);
+            });
 </script>
 ```
+<br>
 
 #### OR Using the REST API
 ```html
@@ -67,48 +70,13 @@ Check out [Lanyard API Documentation](https://brokiem.is-a.dev/lanyard-wrapper/)
 </script>
 ```
 
-### CommonJS
-#### Connecting with WebSocket
-```js
-const LanyardWrapper = require("lanyard-wrapper");
-
-function onUpdate(data) {
-    // data is a Lanyard data object
-    console.log(data);
-}
-
-function onError(err) {
-    // err is an error object
-    console.error(err);
-}
-
-const ws = LanyardWrapper.connectWebSocket("USER_ID", onUpdate, onError);
-```
-
-#### OR Using the REST API
-```js
-const LanyardWrapper = require("lanyard-wrapper");
-
-LanyardWrapper.fetchUserData("USER_ID")
-    .then(data => {
-        console.log(data);
-    })
-    .catch(err => {
-        console.error(err);
-    });
-
-LanyardWrapper.fetchUserDataForMultipleUsers(["USER_ID_1", "USER_ID_2"])
-    .then(data => {
-        console.log(data);
-    })
-    .catch(err => {
-        console.error(err);
-    });
-```
-
-### ES Modules / TypeScript
+### CommonJS / ES Modules / TypeScript
 #### Connecting with WebSocket
 ```ts
+// Use require() if you are using CommonJS
+const LanyardWrapper = require("lanyard-wrapper");
+
+// Use import if you are using ES Modules
 import { connectWebSocket } from "lanyard-wrapper";
 
 function onUpdate(data) {
@@ -116,16 +84,23 @@ function onUpdate(data) {
     console.log(data);
 }
 
-function onError(err) {
-    // err is an error object
-    console.error(err);
-}
-
-const ws = connectWebSocket("USER_ID", onUpdate, onError);
+connectWebSocket("USER_ID", onUpdate)
+    .then(ws => {
+        // ws is a WebSocket object
+        console.log(ws);
+    })
+    .catch(err => {
+        console.error(err);
+    });
 ```
+<br>
 
 #### OR Using the REST API
 ```ts
+// Use require() if you are using CommonJS
+const LanyardWrapper = require("lanyard-wrapper");
+
+// Use import if you are using ES Modules
 import { fetchUserData, fetchUserDataForMultipleUsers } from "lanyard-wrapper";
 
 fetchUserData("USER_ID")

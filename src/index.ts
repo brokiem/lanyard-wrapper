@@ -88,12 +88,18 @@ type Data = {
     activities: Activity[];
 };
 
-export function connectWebSocket(userId: string | string[], onUpdate: (data: Data) => void, onError: (error: Error) => void): WebSocket | null {
+/**
+ * Connects to the Lanyard WebSocket API
+ * @param userId The user ID to connect to
+ * @param onUpdate Callback function that is called when the user's presence is updated
+ * @returns The WebSocket connection
+ * @throws Error if the browser doesn't support WebSocket connections
+ * @throws Error if the WebSocket connection is closed
+ */
+export async function connectWebSocket(userId: string | string[], onUpdate: (data: Data) => void): Promise<WebSocket> {
     const supportsWebSocket = "WebSocket" in window || "MozWebSocket" in window;
-
     if (!supportsWebSocket) {
-        onError(new Error("Browser doesn't support WebSocket connections."));
-        return null;
+        throw new Error("Browser doesn't support WebSocket connections.");
     }
 
     const socket = new WebSocket(CONSTANTS.WEBSOCKET_URL);
@@ -127,50 +133,54 @@ export function connectWebSocket(userId: string | string[], onUpdate: (data: Dat
 
     socket.onclose = (event) => {
         clearInterval(heartbeat!);
-        onError(new Error(`Socket closed with code ${event.code}`));
+        throw new Error(`Socket closed with code ${event.code}`);
     };
 
     return socket;
 }
 
+/**
+ * Fetches the user data from the Lanyard API
+ * @param userId The user ID to fetch the data for
+ * @returns The user data
+ * @throws Error if the request failed
+ */
 export async function fetchUserData(userId: string): Promise<Data> {
-    return new Promise((resolve, reject) => {
-        fetch(`${CONSTANTS.API_URL}/users/${userId}`)
-            .then((res) => res.json())
-            .then((body) => {
-                if (!body.success) {
-                    reject(new Error(body.error?.message || "An invalid error occured"));
-                }
+    const res = await fetch(`${CONSTANTS.API_URL}/users/${userId}`);
+    const body = await res.json();
 
-                resolve(body.data);
-            })
-            .catch((err) => reject(err));
-    });
+    if (!body.success) {
+        throw new Error(body.error?.message || "An invalid error occured");
+    }
+
+    return body.data;
 }
 
+/**
+ * Fetches the user data from the Lanyard API for multiple users
+ * @param userIds The user IDs to fetch the data for
+ * @returns The user data
+ * @throws Error if the request failed
+ * @throws Error if the request failed for one of the users
+ */
 export async function fetchUserDataForMultipleUsers(userIds: string[]): Promise<Data[]> {
-    return new Promise((resolve, reject) => {
-        const val: Data[] = [];
+    const val: Data[] = [];
 
-        for (const userId of userIds) {
-            fetch(`${CONSTANTS.API_URL}/users/${userId}`)
-                .then((res) => res.json())
-                .then((body) => {
-                    if (!body.success) {
-                        reject(new Error(body.error?.message || "An invalid error occured"));
-                    }
+    for (const user_id of userIds) {
+        const res = await fetchUserData(user_id);
+        val.push(res);
+    }
 
-                    val.push(body.data);
-
-                    if (val.length === userIds.length) {
-                        resolve(val);
-                    }
-                })
-                .catch((err) => reject(err));
-        }
-    })
+    return val;
 }
 
+/**
+ * Fetches the user data KV from the Lanyard API
+ * @param userId The user ID to fetch the data for
+ * @param key The key to fetch the data for
+ * @returns The user data KV
+ * @throws Error if the request failed
+ */
 export async function getKV(userId: string, key: string): Promise<string> {
     try {
         const data = await fetchUserData(userId);
@@ -180,6 +190,16 @@ export async function getKV(userId: string, key: string): Promise<string> {
     }
 }
 
+/**
+ * Sets the user data KV from the Lanyard API
+ * @param userId The user ID to fetch the data for
+ * @param key The key to fetch the data for
+ * @param value The value to set
+ * @param apiKey The API key to use
+ * @throws Error if the request failed
+ * @throws Error if the API key is invalid
+ * @throws Error if the user ID is invalid
+ */
 export async function setKV(userId: string, key: string, value: any, apiKey: string): Promise<void> {
     const url = `${CONSTANTS.API_URL}/users/${userId}/kv/${key}`;
     const headers = {
@@ -198,6 +218,16 @@ export async function setKV(userId: string, key: string, value: any, apiKey: str
     }
 }
 
+/**
+ * Merges the user data KV from the Lanyard API
+ * @param userId The user ID to fetch the data for
+ * @param kvPairs The key-value pairs to merge
+ * @param apiKey The API key to use
+ * @throws Error if the request failed
+ * @throws Error if the API key is invalid
+ * @throws Error if the user ID is invalid
+ * @throws Error if the key-value pairs are invalid
+ */
 export async function mergeKV(userId: string, kvPairs: {[key: string]: any}, apiKey: string): Promise<void> {
     const url = `${CONSTANTS.API_URL}/users/${userId}/kv`;
     const headers = {
@@ -216,6 +246,16 @@ export async function mergeKV(userId: string, kvPairs: {[key: string]: any}, api
     }
 }
 
+/**
+ * Deletes the user data KV from the Lanyard API
+ * @param userId The user ID to fetch the data for
+ * @param key The key to fetch the data for
+ * @param apiKey The API key to use
+ * @throws Error if the request failed
+ * @throws Error if the API key is invalid
+ * @throws Error if the user ID is invalid
+ * @throws Error if the key is not set
+ */
 export async function deleteKV(userId: string, key: string, apiKey: string): Promise<void> {
     const url = `${CONSTANTS.API_URL}/users/${userId}/kv/${key}`;
     const headers = {
