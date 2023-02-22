@@ -1,5 +1,10 @@
 # Lanyard Wrapper
 Fully-typed Lanyard API wrapper for JavaScript/TypeScript (in browser environment)
+<br><br>
+[![npm](https://img.shields.io/npm/v/lanyard-wrapper)](https://www.npmjs.com/package/lanyard-wrapper)
+[![npm](https://img.shields.io/npm/dt/lanyard-wrapper)](https://www.npmjs.com/package/lanyard-wrapper)
+
+Looking for Node.js? Check out [node-lanyard-wrapper](https://github.com/brokiem/node-lanyard-wrapper)
 
 ## Installation
 ### NPM
