@@ -28,7 +28,7 @@ yarn add lanyard-wrapper
 
 ## Usage
 
-Check out [Lanyard API Documentation](https://brokiem.is-a.dev/lanyard-wrapper/) for more information about the data object.
+Check out [Lanyard Wrapper Documentation](https://brokiem.is-a.dev/lanyard-wrapper/) for more information about the data object.
 
 ### Browser
 #### Connecting with WebSocket
