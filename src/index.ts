@@ -21,7 +21,7 @@ type WebSocketSubscription = {
     subscribe_to_ids?: string[];
 };
 
-type Activity = {
+export type Activity = {
     type: number;
     timestamps?: {
         start?: number;
@@ -47,7 +47,7 @@ type Activity = {
     application_id?: string;
 };
 
-type DiscordUser = {
+export type DiscordUser = {
     username: string;
     public_flags: number;
     id: string;
@@ -58,7 +58,7 @@ type DiscordUser = {
     display_name: string | null;
 };
 
-type Spotify = {
+export type Spotify = {
     track_id: string;
     timestamps: {
         start: number;
@@ -70,13 +70,13 @@ type Spotify = {
     album: string;
 };
 
-type DiscordStatus = "online" | "idle" | "dnd" | "offline";
+export type DiscordStatus = "online" | "idle" | "dnd" | "offline";
 
-type KV = {
+export type KV = {
     [key: string]: string;
 };
 
-type Data = {
+export type Data = {
     active_on_discord_mobile: boolean;
     active_on_discord_desktop: boolean;
     active_on_discord_web: boolean;
