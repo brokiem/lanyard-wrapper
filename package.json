@@ -22,14 +22,14 @@
     "wrapper"
   ],
   "devDependencies": {
-    "@rollup/plugin-terser": "^0.4.0",
-    "@rollup/plugin-typescript": "^11.0.0",
-    "@typescript-eslint/parser": "^5.53.0",
-    "del-cli": "^5.0.0",
-    "eslint": "^8.34.0",
-    "rollup": "^3.17.2",
-    "typedoc": "^0.23.25",
-    "typescript": "^4.9.5"
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.5",
+    "@typescript-eslint/parser": "^6.9.0",
+    "del-cli": "^5.1.0",
+    "eslint": "^8.52.0",
+    "rollup": "^4.1.5",
+    "typedoc": "^0.25.3",
+    "typescript": "^5.2.2"
   },
   "scripts": {
     "build": "yarn clean && yarn rollup",
@@ -39,5 +39,5 @@
     "rollup": "rollup --config rollup.config.mjs",
     "generate-docs": "typedoc --out docs src/index.ts"
   },
-  "dependencies": {}
+  "packageManager": "yarn@4.0.1"
 }
